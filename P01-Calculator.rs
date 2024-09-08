@@ -13,26 +13,38 @@ fn process_input(input: &str) -> Vec<&str>{
     }
     let len = input.len();
     if last < len {
+        // TODO: WHY -2???
         list.push(&input[last..len-2]);
     }
 
     return list;
 }
 
-fn calculate(_list: Vec<&str>) -> i64{
-    return 44;
+fn calculate_1(_list: Vec<&str>) -> f32{
+    let num1: f32 = _list[0].parse().unwrap();
+    let num2: f32 = _list[2].parse().unwrap();
+    let result: f32;
+    // println!("num1: {num1}; num2: {num2}");
+    match _list[1] {
+        "+" => result = num1 + num2,
+        "-" => result = num1 - num2,
+        "*" => result = num1 * num2,
+        "/" => result = num1 / num2,
+        _ => result = 0f32,
+    }
+    return result;
 }
 
 fn main(){
-    let stdin = io::stdin();
     let mut input = String::new();
+    let stdin = io::stdin();
     
     match stdin.read_line(&mut input) {
         Ok(_n) => {
-            println!("{}", input);
+            // println!("{}", input);
             let list: Vec<&str> = process_input(&input);
-            println!("{:?}", list);
-            let result: i64 = calculate(list);
+            // println!("{:?}", list);
+            let result: f32 = calculate_1(list);
             println!("{result}");
         }
         Err(_error) => {
