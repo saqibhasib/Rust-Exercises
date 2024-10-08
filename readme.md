@@ -1,7 +1,9 @@
 # RUST Exercises
 
-## 1. Calculator
+### 1. Calculator
 
-## 2. Fibonacci
+### 2. Fibonacci
 
-## 7. Factorial
+### 3. Temperature Converter
+
+### 7. Factorial
