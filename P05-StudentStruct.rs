@@ -1,11 +1,13 @@
 use std::fmt::{self, Formatter, Display};
 
+#[derive(Clone)]
 struct Student {
     name: String,
     age: i32,
     grade: f32
 }
 
+#[derive(Clone)]
 struct StudentVec(Vec<Student>);
 
 impl Display for Student {
@@ -16,9 +18,9 @@ impl Display for Student {
 
 impl Display for StudentVec {
     fn fmt (&self, f: &mut Formatter) -> fmt::Result {
-        write!(f, "[\n");
+        let _ = write!(f, "[\n");
         for s in &self.0 {
-            write!(f, "\tname: {}, age: {}, grade: {}\n", s.name, s.age, s.grade);
+            let __ = write!(f, "\tname: {}, age: {}, grade: {}\n", s.name, s.age, s.grade);
         }
         write!(f, "]\n")
     }
@@ -36,6 +38,7 @@ fn students_over_age_(input: &[Student], _age: i32) -> Vec<Student>{
                 age: i.age,
                 grade: i.grade
             });
+            // result.push(*i.clone());
         }
     }
     return result;
@@ -64,9 +67,9 @@ fn main() {
         grade: 2.9
     });
 
-    let result_vec = students_over_age_(&student_vec, 18);
+    student_vec = students_over_age_(&student_vec, 18);
 
-    let result_vec_struct = StudentVec(result_vec);
+    let result_vec_struct = StudentVec(student_vec);
 
     println!("{}", result_vec_struct);
 }
