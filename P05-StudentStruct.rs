@@ -29,16 +29,26 @@ impl Display for StudentVec {
 
 // Stack Overflow: https://stackoverflow.com/questions/28800121/what-do-i-have-to-do-to-solve-a-use-of-moved-value-error
 
-fn students_over_age_(input: &[Student], _age: i32) -> Vec<Student>{
+// fn students_over_age_(input: &[Student], _age: i32) -> Vec<Student>{
+//     let mut result = Vec::<Student>::new();
+//     for i in input {
+//         if i.age > _age {
+//             result.push(Student{
+//                 name: i.name.clone(),
+//                 age: i.age,
+//                 grade: i.grade
+//             });
+//             // result.push(*i.clone());
+//         }
+//     }
+//     return result;
+// }
+
+fn students_over_age_(input: Vec<Student>, _age: i32) -> Vec<Student>{
     let mut result = Vec::<Student>::new();
     for i in input {
         if i.age > _age {
-            result.push(Student{
-                name: i.name.clone(),
-                age: i.age,
-                grade: i.grade
-            });
-            // result.push(*i.clone());
+            result.push(i);
         }
     }
     return result;
@@ -67,7 +77,7 @@ fn main() {
         grade: 2.9
     });
 
-    student_vec = students_over_age_(&student_vec, 18);
+    student_vec = students_over_age_(student_vec, 18);
 
     let result_vec_struct = StudentVec(student_vec);
 
