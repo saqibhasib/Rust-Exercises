@@ -10,4 +10,14 @@
 
 ### 5. Student Struct
 
+### 6. Word Frequency
+
 ### 7. Factorial
+
+### 8. Palindrome Checker
+
+### 9. Matrix Multiplication*
+
+### 10. Rectangle Struct
+
+*not sorted by difficulty order*

@@ -1,4 +1,6 @@
 use std::ops::{ Index, IndexMut, Mul };
+use std::fmt::{ Display, Formatter, Result};
+// use std::env;
 
 struct Matrix<T> {
     array2d: Vec<Vec<T>>,
@@ -6,17 +8,17 @@ struct Matrix<T> {
     num_col: usize
 }
 
-// impl<T> Matrix<T> {
-//     pub fn multiplication() {
-//         let mut result = Matrix::<T> {
-//             array2d: vec![vec![22, 32, 42], vec![12, 12, 12]],
-//             num_row: 2,
-//             num_col: 3
-//         };
-//     }
-// }
-
-// TODO: limit types of T to i and f
+impl Display for Matrix<i32> {
+    fn fmt (&self, f: &mut Formatter) -> Result {
+        for i in 0..self.num_row {
+            for j in 0..self.num_col {
+                let _ = write!(f, "{}\t", self[(i, j)]);
+            }
+            (|| if i != (self.num_row - 1) {let __ = write!(f, "\n");})();
+        }
+        return write!(f, "");
+    }
+}
 
 impl<T> Index<(usize, usize)> for Matrix<T> {
     type Output = T;
@@ -33,21 +35,34 @@ impl<T> IndexMut<(usize, usize)> for Matrix<T> {
     }
 }
 
-impl<T> Mul<Matrix<T>> for Matrix<T> {
+impl Mul<Matrix<i32>> for Matrix<i32> {
     type Output = Self;
 
     fn mul(self, rhs: Self) -> Self {
-        // let mut result = Matrix::<i32> {
-        //     array2d: vec![vec![22, 32, 42], vec![12, 12, 12]],
-        //     num_row: 2,
-        //     num_col: 3
-        // };
-        println!("inside multipl");
-        return self;
+        if self.num_col != rhs.num_row {
+            panic!("Dimension mismatched: cannot multiply the matrices");
+        }
+        
+        let mut result = Matrix::<i32> {
+            array2d: vec![vec![0; rhs.num_col]; self.num_row],
+            num_row: self.num_row,
+            num_col: rhs.num_col
+        };
+
+        for i in 0..self.num_row {
+            for k in 0..rhs.num_col {
+                for j in 0..self.num_col {
+                    result[(i, k)] += self[(i, j)] * rhs[(j, k)];
+                }
+            }
+        }
+        return result;
     }
 }
 
 fn main() {
+    // env::set_var("RUST_BACKTRACE", "1");
+
     let matrix = Matrix::<i32> {
         array2d: vec![vec![2, 3, 4], vec![1, 1, 1]],
         num_row: 2,
@@ -55,12 +70,12 @@ fn main() {
     };
 
     let other_matrix = Matrix::<i32> {
-        array2d: vec![vec![2, 3, 4], vec![1, 1, 1]],
-        num_row: 2,
-        num_col: 3
+        array2d: vec![vec![2, 5, 3, 1], vec![1, 2, 3, 1], vec![0, 2, 1, 1]],
+        num_row: 3,
+        num_col: 4
     };
 
     let result = matrix * other_matrix;
 
-    println!("{}", result[(0, 1)]);
+    println!("{}", result);
 }
